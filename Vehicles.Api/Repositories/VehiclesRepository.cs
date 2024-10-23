@@ -1,24 +1,40 @@
 ﻿using System.Text.Json;
 using System;
-using System.Text.Json.Serialization;
 using System.Linq.Expressions;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace Vehicles.Api.Repositories
 {
 
     public class Vehicle
     {
-        [JsonPropertyName("make")]
+        [JsonProperty("make")]
         public string Make { get; set; }
-        [JsonPropertyName("model")]
+        [JsonProperty("model")]
         public string Model { get; set; }
-        [JsonPropertyName("trim")]
+        [JsonProperty("trim")]
         public string Trim { get; set; }
-        [JsonPropertyName("colour")]
+        [JsonProperty("colour")]
         public string Colour { get; set; }
+        [JsonProperty("price")]
+        public decimal Price { get; set; }
+        [JsonProperty("engine_size")]
+        public int EngineSize { get; set; }
+        [JsonProperty("co2_level")]
+        public int CO2Level { get; set; }
+        [JsonProperty("transmission")]
+        public string Transmission { get; set; }
+        [JsonProperty("fuel_type")]
+        public string FuelType { get; set; }
+        [JsonProperty("date_first_reg")]
+        [JsonConverter(typeof(DateJsonSerializer))]
+        public DateTime DateFirstRegistered { get; set; }
+        [JsonProperty("mileage")]
+        public int Mileage { get; set; }
+
     }
 
     //I tried not to modify the given repository class as much as possible since that wasn't the basis of the technical test, but needed to add this interface so I could mock the repo for unit testing.
@@ -36,7 +52,7 @@ namespace Vehicles.Api.Repositories
             using (StreamReader r = new StreamReader("Repositories/vehicles.json"))
             {
                 string json = r.ReadToEnd();
-                _vehicles = JsonSerializer.Deserialize<List<Vehicle>>(json) ?? new List<Vehicle>();
+                _vehicles = JsonConvert.DeserializeObject<List<Vehicle>>(json) ?? new List<Vehicle>();
             }
         }
 
