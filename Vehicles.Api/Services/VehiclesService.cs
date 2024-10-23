@@ -65,5 +65,24 @@ namespace Vehicles.Api.Services
                 throw;
             }
         }
+
+        public IEnumerable<Vehicle> GetUnderPrice(decimal price)
+        {
+
+            try
+            {
+                return _vehiclesRepository.Get(c => c.Price <= price) ?? Enumerable.Empty<Vehicle>();
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogError(ex, $"Bad query structure while retrieving vehicles under price: {price}");
+                throw;
+            }
+            catch (Exception ex) // Catching all other unexpected exceptions
+            {
+                _logger.LogError(ex, "An unexpected error occurred while retrieving vehicles under price.");
+                throw;
+            }
+        }
     }
 }

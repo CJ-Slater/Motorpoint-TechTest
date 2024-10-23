@@ -70,5 +70,24 @@ namespace Vehicles.Api.Controllers
                 return StatusCode(500, "An error occurred while processing your request.");
             }
         }
+
+        [HttpGet]
+        [Route("get-under-price")]
+        public IActionResult GetVehiclesUnderPrice(decimal price)
+        {
+            if (price <= 0)
+                return BadRequest("Price given must be above 0.");
+
+            try
+            {
+                var vehicles = _vehiclesService.GetUnderPrice(price);
+                return Ok(vehicles);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"An error occurred while retrieving vehicles under price model: {price}");
+                return StatusCode(500, "An error occurred while processing your request.");
+            }
+        }
     }
 }
