@@ -8,5 +8,6 @@ namespace Vehicles.Api.Services
         IEnumerable<Vehicle> GetByMake(string make);
         IEnumerable<Vehicle> GetByModel(string model);
         IEnumerable<Vehicle> GetUnderPrice(decimal price);
+        IEnumerable<Vehicle> GetInPriceRange(decimal lowerPrice, decimal upperPrice);
     }
 }

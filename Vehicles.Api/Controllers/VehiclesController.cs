@@ -89,5 +89,27 @@ namespace Vehicles.Api.Controllers
                 return StatusCode(500, "An error occurred while processing your request.");
             }
         }
+
+        [HttpGet]
+        [Route("get-in-price-range")]
+        public IActionResult GetVehiclesInPriceRange(decimal lowerPrice, decimal upperPrice)
+        {
+            if (lowerPrice < 0 || upperPrice <= 0)
+                return BadRequest("Price range must be above 0.");
+
+            if (lowerPrice > upperPrice)
+                return BadRequest("Lower price must be less than upper price.");
+
+            try
+            {
+                var vehicles = _vehiclesService.GetInPriceRange(lowerPrice, upperPrice);
+                return Ok(vehicles);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"An error occurred while retrieving vehicles in price range: {lowerPrice} - {upperPrice}");
+                return StatusCode(500, "An error occurred while processing your request.");
+            }
+        }
     }
 }

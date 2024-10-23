@@ -37,7 +37,7 @@ namespace Vehicles.Api.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An unexpected error occurred while retrieving vehicles by make.");
+                _logger.LogError(ex, $"An unexpected error occurred while retrieving vehicles by make: {make}");
                 throw;
             }
         }
@@ -61,14 +61,13 @@ namespace Vehicles.Api.Services
             }
             catch (Exception ex) // Catching all other unexpected exceptions
             {
-                _logger.LogError(ex, "An unexpected error occurred while retrieving vehicles by model.");
+                _logger.LogError(ex, $"An unexpected error occurred while retrieving vehicles by model: {model}");
                 throw;
             }
         }
 
         public IEnumerable<Vehicle> GetUnderPrice(decimal price)
         {
-
             try
             {
                 return _vehiclesRepository.Get(c => c.Price <= price) ?? Enumerable.Empty<Vehicle>();
@@ -80,7 +79,27 @@ namespace Vehicles.Api.Services
             }
             catch (Exception ex) // Catching all other unexpected exceptions
             {
-                _logger.LogError(ex, "An unexpected error occurred while retrieving vehicles under price.");
+                _logger.LogError(ex, $"An unexpected error occurred while retrieving vehicles under price: {price}");
+                throw;
+            }
+        }
+
+
+        public IEnumerable<Vehicle> GetInPriceRange(decimal lowerPrice, decimal upperPrice)
+        {
+
+            try
+            {
+                return _vehiclesRepository.Get(c => c.Price >= lowerPrice && c.Price <= upperPrice) ?? Enumerable.Empty<Vehicle>();
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogError(ex, $"Bad query structure while retrieving vehicles in price range: {lowerPrice} - {upperPrice}");
+                throw;
+            }
+            catch (Exception ex) // Catching all other unexpected exceptions
+            {
+                _logger.LogError(ex, $"An unexpected error occurred while retrieving vehicles in price range: {lowerPrice} - {upperPrice}");
                 throw;
             }
         }
