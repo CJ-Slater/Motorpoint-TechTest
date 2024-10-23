@@ -19,9 +19,18 @@ namespace Vehicles.Api.Controllers
 
 
         [HttpGet]
-        public List<Vehicle> GetVehicles()
+        public IActionResult GetVehicles()
         {
-            return _vehiclesService.GetAll();
+            try
+            {
+                var vehicles = _vehiclesService.GetAll();
+                return Ok(vehicles);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while retrieving all vehicles.");
+                return StatusCode(500, "An error occurred while processing your request."); //Return friendly message to user in case of any errors that haven't been handled by this point.
+            }
         }
 
         [HttpGet]
@@ -31,7 +40,16 @@ namespace Vehicles.Api.Controllers
             if (String.IsNullOrEmpty(make))
                 return BadRequest("No make was specified.");
 
-            return Ok(_vehiclesService.GetByMake(make));
+            try
+            {
+                var vehicles = _vehiclesService.GetByMake(make);
+                return Ok(vehicles);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"An error occurred while retrieving vehicles for make: {make}");
+                return StatusCode(500, "An error occurred while processing your request.");
+            }
         }
 
         [HttpGet]
@@ -41,7 +59,16 @@ namespace Vehicles.Api.Controllers
             if (String.IsNullOrEmpty(model))
                 return BadRequest("No model was specified.");
 
-            return Ok(_vehiclesService.GetByModel(model));
+            try
+            {
+                var vehicles = _vehiclesService.GetByModel(model);
+                return Ok(vehicles);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"An error occurred while retrieving vehicles for model: {model}");
+                return StatusCode(500, "An error occurred while processing your request.");
+            }
         }
     }
 }

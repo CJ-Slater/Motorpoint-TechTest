@@ -21,7 +21,14 @@ namespace Vehicles.Api.Repositories
         public string Colour { get; set; }
     }
 
-    public class VehiclesRepository
+    //I tried not to modify the given repository class as much as possible since that wasn't the basis of the technical test, but needed to add this interface so I could mock the repo for unit testing.
+    public interface IVehiclesRepository
+    {
+        List<Vehicle> GetAll();
+        IEnumerable<Vehicle> Get(Expression<Func<Vehicle, bool>> filter = null, Func<IQueryable<Vehicle>, IOrderedQueryable<Vehicle>> orderBy = null, int take = 50, int page = 0);
+    }
+
+    public class VehiclesRepository : IVehiclesRepository
     {
         List<Vehicle> _vehicles;
         public VehiclesRepository()
@@ -31,6 +38,13 @@ namespace Vehicles.Api.Repositories
                 string json = r.ReadToEnd();
                 _vehicles = JsonSerializer.Deserialize<List<Vehicle>>(json) ?? new List<Vehicle>();
             }
+        }
+
+        
+        //Same here, had to add this constructor so I could mock data for testing.
+        public VehiclesRepository(IEnumerable<Vehicle> vehicles)
+        {
+            _vehicles = vehicles?.ToList() ?? new List<Vehicle>();
         }
 
         public List<Vehicle> GetAll()
@@ -47,11 +61,11 @@ namespace Vehicles.Api.Repositories
                 query = query.Where(filter);
             }
 
-            if (take >= 0)
-                query = query.Take(take);
-
             if (page >= 0)
             query = query.Skip(take * page);
+
+            if (take >= 0)
+                query = query.Take(take);
 
 
             if (orderBy != null)
