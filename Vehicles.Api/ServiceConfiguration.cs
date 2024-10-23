@@ -7,9 +7,9 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection ConfigureServices(this IServiceCollection services)
         {
-            services.AddSingleton<IVehiclesRepository>(new VehiclesRepository());
-            services.AddSingleton<VehiclesRepository, VehiclesRepository>();
-            services.AddSingleton<VehiclesService, VehiclesService>();
+            //Have to add vehicle repo this way as .NET DI has odd behaviour with IEnumerable parameters.
+            services.AddScoped<IVehiclesRepository>(c => new VehiclesRepository());
+            services.AddScoped<IVehiclesService, VehiclesService>();
             return services;
         }
     }

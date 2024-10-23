@@ -9,9 +9,9 @@ namespace Vehicles.Api.Controllers
     public class VehiclesController : ControllerBase
     {
         private readonly ILogger<VehiclesController> _logger;
-        private readonly VehiclesService _vehiclesService;
+        private readonly IVehiclesService _vehiclesService;
 
-        public VehiclesController(ILogger<VehiclesController> logger, VehiclesService vehiclesService)
+        public VehiclesController(ILogger<VehiclesController> logger, IVehiclesService vehiclesService)
         {
             _logger = logger;
             _vehiclesService = vehiclesService;

@@ -2,7 +2,7 @@
 
 namespace Vehicles.Api.Services
 {
-    public class VehiclesService
+    public class VehiclesService : IVehiclesService
     {
         private readonly IVehiclesRepository _vehiclesRepository;
         private readonly ILogger<VehiclesService> _logger;
