@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Moq;
 using System.Linq.Expressions;
 using Vehicles.Api.Repositories;
@@ -8,6 +9,7 @@ namespace Tests
     public class VehiclesServiceTests
     {
         private Mock<IVehiclesRepository> _mockRepository;
+        private Mock<ILogger<VehiclesService>> _logger;
         private VehiclesService _vehiclesService;
         private List<Vehicle> _mockVehicles;
 
@@ -16,17 +18,18 @@ namespace Tests
         {
             // Initialize mock vehicle data
             _mockVehicles = new List<Vehicle>
-        {
-            new Vehicle { Make = "Toyota", Model = "Camry", Trim = "LE", Colour = "Red" },
-            new Vehicle { Make = "Honda", Model = "Accord", Trim = "EX", Colour = "Black" },
-            new Vehicle { Make = "Ford", Model = "Focus", Trim = "SE", Colour = "Blue" }
-        };
+            {
+                new Vehicle { Make = "Toyota", Model = "Camry", Trim = "LE", Colour = "Red" },
+                new Vehicle { Make = "Honda", Model = "Accord", Trim = "EX", Colour = "Black" },
+                new Vehicle { Make = "Ford", Model = "Focus", Trim = "SE", Colour = "Blue" }
+            };
 
             // Initialize the mock repository
             _mockRepository = new Mock<IVehiclesRepository>();
+            _logger = new Mock<ILogger<VehiclesService>>();
 
             // Initialize the service with the mock repository
-            _vehiclesService = new VehiclesService(_mockRepository.Object);
+            _vehiclesService = new VehiclesService(_mockRepository.Object, _logger.Object);
         }
 
         // Test 1: GetAll should return all vehicles from the repository

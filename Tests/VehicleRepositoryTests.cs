@@ -13,11 +13,11 @@ namespace Tests
         {
             // Initialize mock data
             _mockVehicles = new List<Vehicle>
-        {
-            new Vehicle { Make = "Toyota", Model = "Camry", Trim = "Blue", Colour = "Red" },
-            new Vehicle { Make = "Honda", Model = "Accord", Trim = "Blue", Colour = "Black" },
-            new Vehicle { Make = "Ford", Model = "Focus", Trim = "Black", Colour = "Blue" }
-        };
+            {
+                new Vehicle { Make = "Toyota", Model = "Camry", Trim = "Blue", Colour = "Red" },
+                new Vehicle { Make = "Honda", Model = "Accord", Trim = "Blue", Colour = "Black" },
+                new Vehicle { Make = "Ford", Model = "Focus", Trim = "Black", Colour = "Blue" }
+            };
 
             // Initialize repository with mock data
             _repo = new VehiclesRepository(_mockVehicles);
