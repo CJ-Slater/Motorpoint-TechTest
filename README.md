@@ -1,6 +1,4 @@
-This repository is for a technical task in C# provided by Motorpoint.
-
-Clone this repository and complete the following tasks.
+This project is a simple Swagger API serving as the completed technical test for motorpoint. All requirements have been completed as listed: 
 
 - Add the remaining fields to the vehicle model
 - Implement an endpoint for listing all cars
@@ -8,10 +6,6 @@ Clone this repository and complete the following tasks.
 - Implement an endpoint for listing cars by model
 - Add any other endpoints you think are useful / relevant
 
-Consider the following as well.
+Error handling and unit tests are included as well.
 
-- Error handling
-- Unit tests
-
-Upload the completed solution to your own GitHub and provide the link to it (ensure it is publically available).
-The solution must compile and run without any errors.
+To run: As there's no front-end attached to this project, simply clone the repo and open in your IDE.
