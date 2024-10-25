@@ -37,7 +37,7 @@ namespace Vehicles.Api.Repositories
 
     }
 
-    //I tried not to modify the given repository class as much as possible since that wasn't the basis of the technical test, but needed to add this interface so I could mock the repo for unit testing.
+    //I tried not to modify the given repository class as much as possible since that wasn't the basis of the technical test, but added this interface as it was also helpful for mocking the repo for testing.
     public interface IVehiclesRepository
     {
         List<Vehicle> GetAll();
@@ -57,7 +57,7 @@ namespace Vehicles.Api.Repositories
         }
 
         
-        //Same here, had to add this constructor so I could mock data for testing.
+        //Added this constructor so I could mock data for testing, obviously in a more standard repo I wouldn't do this.
         public VehiclesRepository(IEnumerable<Vehicle> vehicles)
         {
             _vehicles = vehicles?.ToList() ?? new List<Vehicle>();
@@ -68,6 +68,7 @@ namespace Vehicles.Api.Repositories
             return _vehicles;
         }
 
+        //Get function which accepts filtering, sorting and pagination
         public IEnumerable<Vehicle> Get(Expression<Func<Vehicle, bool>> filter = null, Func<IQueryable<Vehicle>, IOrderedQueryable<Vehicle>> orderBy = null, int take = 50, int page = 0)
         {
 
